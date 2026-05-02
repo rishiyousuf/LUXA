@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login - LUXA Luxury Watches{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-container">
+        <div class="auth-box">
+            <h2>Login to Your Account</h2>
+            
+            {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+
+            <form method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large">Login</button>
+            </form>
+
+            <p class="auth-link">
+                Don't have an account? <a href="/auth/signup">Sign up here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - LUXA Luxury Watches{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="product-detail">
+        <!-- Product Images -->
+        <div class="product-images">
+            <div class="main-image">
+                <img src="{{ product.image or '/static/images/placeholder.jpg' }}" alt="{{ product.name }}" id="mainImage">
+            </div>
+            {% if product.gallery_images %}
+            <div class="thumbnail-images">
+                <img src="{{ product.image }}" alt="{{ product.name }}" class="thumbnail active" onclick="changeImage(this)">
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-details">
+            <h1 class="product-title">{{ product.name }}</h1>
+            <p class="product-brand-detail">by {{ product.brand }}</p>
+            
+            <div class="rating-section">
+                <span class="rating">★★★★★ ({{ reviews|length }} reviews)</span>
+            </div>
+
+            <div class="price-section">
+                <p class="product-price-detail">${{ "%.2f"|format(product.price) }}</p>
+            </div>
+
+            <!-- Product Details -->
+            <div class="specs">
+                <div class="spec-item">
+                    <span class="spec-label">Movement:</span>
+                    <span class="spec-value">{{ product.movement or 'Not specified' }}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Water Resistance:</span>
+                    <span class="spec-value">{{ product.water_resistance or 'Not specified' }}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Case Material:</span>
+                    <span class="spec-value">{{ product.case_material or 'Not specified' }}</span>
+                </div>
+            </div>
+
+            <p class="description">{{ product.description }}</p>
+
+            <!-- Add to Cart Form -->
+            <form method="post" action="/cart/add/{{ product.id }}" class="add-to-cart-form">
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">Add to Cart</button>
+            </form>
+
+            {% if session.user_id %}
+            <a href="/auth/wishlist/add/{{ product.id }}" class="btn btn-secondary">Add to Wishlist ♡</a>
+            {% else %}
+            <a href="/auth/login" class="btn btn-secondary">Login to Wishlist</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+        <h3>Customer Reviews</h3>
+        
+        {% if reviews %}
+        <div class="reviews-list">
+            {% for review in reviews %}
+            <div class="review-item">
+                <div class="review-header">
+                    <p class="review-author">{{ review.author }}</p>
+                    <p class="review-rating">★ {{ review.rating }}/5</p>
+                </div>
+                <p class="review-comment">{{ review.comment }}</p>
+                <p class="review-date">{{ review.created_at.strftime('%B %d, %Y') }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No reviews yet. Be the first to review this product!</p>
+        {% endif %}
+
+        <!-- Add Review Form -->
+        <div class="add-review">
+            <h4>Leave a Review</h4>
+            <form method="post" action="/products/{{ product.id }}/reviews" class="review-form">
+                <div class="form-group">
+                    <label for="author">Your Name:</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Select rating</option>
+                        <option value="5">★★★★★ 5 Stars</option>
+                        <option value="4">★★★★☆ 4 Stars</option>
+                        <option value="3">★★★☆☆ 3 Stars</option>
+                        <option value="2">★★☆☆☆ 2 Stars</option>
+                        <option value="1">★☆☆☆☆ 1 Star</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Your Review:</label>
+                    <textarea id="comment" name="comment" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function changeImage(img) {
+        document.getElementById('mainImage').src = img.src;
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        img.classList.add('active');
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Orders - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-sidebar">
+        <h3>Admin Panel</h3>
+        <nav class="admin-nav">
+            <a href="/admin/" class="nav-item">Dashboard</a>
+            <a href="/admin/products" class="nav-item">Products</a>
+            <a href="/admin/orders" class="nav-item active">Orders</a>
+        </nav>
+    </div>
+
+    <div class="admin-content">
+        <h2>Manage Orders</h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders.items %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+                    <td>${{ "%.2f"|format(order.total_price) }}</td>
+                    <td>
+                        <form method="post" action="/admin/orders/{{ order.id }}/update-status" class="status-form">
+                            <select name="status" onchange="this.form.submit()">
+                                <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="confirmed" {% if order.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                                <option value="shipped" {% if order.status == 'shipped' %}selected{% endif %}>Shipped</option>
+                                <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>{{ order.created_at.strftime('%m/%d/%Y') }}</td>
+                    <td>
+                        <a href="#" class="btn btn-small btn-view">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        {% if orders.pages > 1 %}
+        <div class="pagination">
+            {% if orders.has_prev %}
+                <a href="?page={{ orders.prev_num }}" class="page-link">← Previous</a>
+            {% endif %}
+            
+            {% for page_num in orders.iter_pages() %}
+                {% if page_num %}
+                    {% if page_num == orders.page %}
+                        <span class="page-link active">{{ page_num }}</span>
+                    {% else %}
+                        <a href="?page={{ page_num }}" class="page-link">{{ page_num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            
+            {% if orders.has_next %}
+                <a href="?page={{ orders.next_num }}" class="page-link">Next →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

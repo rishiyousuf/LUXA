@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - LUXA{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-sidebar">
+        <h3>Admin Panel</h3>
+        <nav class="admin-nav">
+            <a href="/admin/" class="nav-item active">Dashboard</a>
+            <a href="/admin/products" class="nav-item">Products</a>
+            <a href="/admin/orders" class="nav-item">Orders</a>
+        </nav>
+    </div>
+
+    <div class="admin-content">
+        <h2>Dashboard</h2>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <h4>Total Products</h4>
+                <p class="stat-number">{{ total_products }}</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <h4>Total Users</h4>
+                <p class="stat-number">{{ total_users }}</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <h4>Total Orders</h4>
+                <p class="stat-number">{{ total_orders }}</p>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="admin-section">
+            <h3>Recent Orders</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+                        <td>${{ "%.2f"|format(order.total_price) }}</td>
+                        <td><span class="status-badge">{{ order.status }}</span></td>
+                        <td>{{ order.created_at.strftime('%m/%d/%Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

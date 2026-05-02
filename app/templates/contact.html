@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - LUXA Luxury Watches{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="contact-container">
+        <h2 class="section-title">Contact Us</h2>
+
+        {% if submitted %}
+        <div class="alert alert-success">
+            <p>Thank you for your message! We'll get back to you shortly.</p>
+        </div>
+        {% endif %}
+
+        <div class="contact-wrapper">
+            <!-- Contact Form -->
+            <form method="post" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" rows="7" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <div class="info-section">
+                    <h4>Get in Touch</h4>
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <p>123 Luxury Lane<br>New York, NY 10001<br>United States</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <p>info@luxa.com</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <p>Monday - Friday: 10am - 6pm EST<br>Saturday: 11am - 4pm EST<br>Sunday: Closed</p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-section">
+            <h3>Visit Our Showroom</h3>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290255!2d-74.00601592345033!3d40.71282571110101!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ3LjQiTiA3NMKwMDAnMTAuNyJX!5e0!3m2!1sen!2sus!4v" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Product - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-sidebar">
+        <h3>Admin Panel</h3>
+        <nav class="admin-nav">
+            <a href="/admin/" class="nav-item">Dashboard</a>
+            <a href="/admin/products" class="nav-item active">Products</a>
+            <a href="/admin/orders" class="nav-item">Orders</a>
+        </nav>
+    </div>
+
+    <div class="admin-content">
+        <h2>Edit Product</h2>
+
+        <form method="post" class="admin-form">
+            <div class="form-group">
+                <label for="name">Product Name *</label>
+                <input type="text" id="name" name="name" value="{{ product.name }}" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="brand">Brand *</label>
+                    <input type="text" id="brand" name="brand" value="{{ product.brand }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price *</label>
+                    <input type="number" id="price" name="price" value="{{ product.price }}" step="0.01" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                    <option value="Classic" {% if product.category == 'Classic' %}selected{% endif %}>Classic</option>
+                    <option value="Modern" {% if product.category == 'Modern' %}selected{% endif %}>Modern</option>
+                    <option value="Sports" {% if product.category == 'Sports' %}selected{% endif %}>Sports</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="5">{{ product.description or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image URL</label>
+                <input type="url" id="image" name="image" value="{{ product.image or '' }}">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="movement">Movement</label>
+                    <input type="text" id="movement" name="movement" value="{{ product.movement or '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="water_resistance">Water Resistance</label>
+                    <input type="text" id="water_resistance" name="water_resistance" value="{{ product.water_resistance or '' }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="case_material">Case Material</label>
+                <input type="text" id="case_material" name="case_material" value="{{ product.case_material or '' }}">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Product</button>
+                <a href="/admin/products" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

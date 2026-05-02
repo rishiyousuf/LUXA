@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmation - LUXA Luxury Watches{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="confirmation-container">
+        <div class="confirmation-header">
+            <div class="success-icon">✓</div>
+            <h2>Order Confirmed!</h2>
+            <p>Thank you for your purchase</p>
+        </div>
+
+        <div class="order-details">
+            <h3>Order #{{ order.id }}</h3>
+            
+            <div class="details-grid">
+                <div class="detail-section">
+                    <h4>Order Date</h4>
+                    <p>{{ order.created_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h4>Order Status</h4>
+                    <p class="status-badge">{{ order.status|capitalize }}</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h4>Shipping Address</h4>
+                    <p>{{ order.shipping_address }}</p>
+                </div>
+            </div>
+
+            <div class="order-items">
+                <h4>Items Ordered</h4>
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ "%.2f"|format(item.price) }}</td>
+                            <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-total">
+                <div class="total-item">
+                    <span>Order Total:</span>
+                    <span>${{ "%.2f"|format(order.total_price) }}</span>
+                </div>
+            </div>
+
+            <div class="confirmation-actions">
+                <a href="/auth/profile" class="btn btn-primary">View My Orders</a>
+                <a href="/products/" class="btn btn-secondary">Continue Shopping</a>
+            </div>
+
+            <div class="confirmation-message">
+                <p>A confirmation email has been sent to your email address.</p>
+                <p>You will receive tracking information once your order ships.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

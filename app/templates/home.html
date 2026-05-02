@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Home - LUXA Luxury Watches{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Timeless Elegance on Your Wrist</h1>
+        <p class="hero-subtitle">Discover the pinnacle of luxury watchmaking</p>
+        <a href="/products/" class="btn btn-primary">Shop Now</a>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products">
+    <div class="container">
+        <h2 class="section-title">Featured Collections</h2>
+        <div class="products-grid">
+            {% for product in featured_products %}
+            <div class="product-card" data-product-id="{{ product.id }}">
+                <div class="product-image">
+                    <img src="{{ product.image or '/static/images/placeholder.jpg' }}" alt="{{ product.name }}">
+                    <div class="product-overlay">
+                        <a href="/products/{{ product.id }}" class="btn btn-secondary">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-brand">{{ product.brand }}</p>
+                    <p class="product-price">${{ "%.2f"|format(product.price) }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Trust Section -->
+<section class="trust-section">
+    <div class="container">
+        <h2 class="section-title">Why Choose LUXA</h2>
+        <div class="trust-grid">
+            <div class="trust-item">
+                <div class="trust-icon">✓</div>
+                <h3>Premium Quality</h3>
+                <p>Hand-selected luxury watches from the finest manufacturers worldwide</p>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">✓</div>
+                <h3>Authentic Guarantee</h3>
+                <p>Every timepiece is verified authentic with certificates of authenticity</p>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">✓</div>
+                <h3>Lifetime Support</h3>
+                <p>Dedicated customer service and lifetime warranty on select pieces</p>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">✓</div>
+                <h3>Secure Shipping</h3>
+                <p>Fully insured shipping with white-glove delivery to your doorstep</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add fade-in animation
+        const cards = document.querySelectorAll('.product-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.classList.add('fade-in-up');
+        });
+    });
+</script>
+{% endblock %}
