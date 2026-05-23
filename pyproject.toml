@@ -1,0 +1,2 @@
+[tool.vercel]
+entrypoint = "luxury_watches/run.py:app"
